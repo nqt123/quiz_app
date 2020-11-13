@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Snippet - BBBootstrap</title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/index.css">
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
+    <script type='text/javascript' src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
+</head>
+
+<body oncontextmenu='return false' class='snippet-body pt-5'>
+    <%- include('header.ejs') -%>
+    <!-- For demo purpose -->
+    <div class="container">
+        <div class="pt-5 text-white">
+            <header class="py-5 mt-5">
+                <h1 class="display-4">Final Quiz Result</h1>
+                <small class="mb-0">“There is no end to education. It is not that you read a book, pass an examination,
+                    and finish with education. The whole of life, from the moment you are born to the moment you die, is
+                    a process of learning.”</small>
+            </header>
+            <div class="py-3">
+                <h2>Your Score: <strong><%=score%></strong></h2>
+            </div>
+            <div class="py-3">
+                <h4>Message from us: <strong><%=scoreText%></strong></h4>
+            </div>
+        </div>
+    </div>
+</body>
+</script>
+<script src="/js/quiz.js"></script>
+
+</html>

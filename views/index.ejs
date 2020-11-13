@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Snippet - BBBootstrap</title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/index.css">
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
+    <script type='text/javascript' src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
+</head>
+<%- include('header.ejs') -%>
+<body oncontextmenu='return false' class='snippet-body pt-5'>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center row">
+            <div class="col-md-10 col-lg-10">
+                <div class="border">
+                    <div class="question bg-white p-3 border-bottom">
+                        <div class="d-flex flex-row justify-content-between align-items-center mcq">
+                            <h4>Choose Correct Answer Quiz</h4><span>(10 questions)</span>
+                        </div>
+                    </div>
+                    <div class="question bg-white p-3 border-bottom">
+                        <div class="d-flex flex-row align-items-center question-title">
+                            <p class="mt-1 ml-2">A quiz is a form of game or mind sport in which players attempt to answer questions correctly. It is a game to test knowledge about a certain subject.!</p>
+                        </div>
+                        <a href="/quiz?guest=true" class="new-attempt">
+                            <button type="button" name="" id="" class="btn btn-success new-attempt" btn-lg btn-block">Start A New Attempt</button>
+                        </a>
+                        <span class="previous-attempt"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        let previousAttempt = window.localStorage.getItem('attempt');
+        if (previousAttempt) {
+            $('.previous-attempt').html(`<a href='/quiz/${previousAttempt}'><button type="button" name="" id="" class="btn btn-warning" btn-lg btn-block">Continue Previous Attempt</button></a>`);
+            $('.new-attempt').attr('href', `/quiz?guest=false`);
+        }
+
+        $('.new-attempt').on('click', () => {
+          window.localStorage.removeItem('attempt')
+        })
+    });
+</script>
+<script src="/js/quiz.js"></script>
+</html>

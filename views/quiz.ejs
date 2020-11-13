@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Snippet - BBBootstrap</title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/index.css">
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
+    <script type='text/javascript' src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
+</head>
+
+<body oncontextmenu='return false' class='snippet-body pt-5'>
+    <%- include('header.ejs') -%>
+    <form method="POST" class="container mt-5">
+        <div class="d-flex justify-content-center row">
+            <div class="col-md-10 col-lg-10">
+                <div class="border">
+                    <div class="question bg-white p-3 border-bottom">
+                        <div class="d-flex flex-row justify-content-between align-items-center mcq">
+                            <h4>MCQ Quiz</h4><span>10 questions</span>
+                        </div>
+                    </div>
+                    <% attempt.questions.forEach((question, i) => { %>
+                    <div class="question bg-white p-3 border-bottom">
+                        <div class="d-flex flex-row align-items-center question-title">
+                            <h3 class="text-danger">Q<%=i + 1%>. </h3>
+                            <h5 class="mt-1 ml-2"> <%= question.text %> </h5>
+                        </div>
+                        <% question.answers.forEach((answer, j) => { %>
+                        <div class="ans ml-2">
+                            <label class="radio"> <input class="answer" <%= attempt.completed ? 'disabled' : '' %> type="radio"
+                                    name="<%=i%>" value="<%=j%>"
+                                    <%= attempt.answers[i] == j ? 'checked' : '' %>>
+                                <span> <%=answer%></span>
+                            </label>
+                        </div>
+                        <% }) %>
+                    </div>
+                    <% }) %>
+                </div>
+                <% if (!attempt.completed) { %>
+                <div class="text-center pt-3 pb-3">
+                    <button type="submit" class="btn btn-primary text-center">Submit</button>
+                </div>
+                <% } else {%>
+                <div class="text-center">
+                    <h5><span class="text-success">Your Score:</span> <%=attempt.score%></h5>
+                    <h5><%=attempt.scoreText%></h5>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </form>
+</body>
+<script type="text/javascript">
+  $(document).ready(function () {
+      let attemptObj = <%- JSON.stringify(attempt) %>;
+      if (!attemptObj.completed) {
+          window.localStorage.setItem('attempt', attemptObj._id);
+      }
+      if (attemptObj.completed) {
+        swal("You've done this Attempt. Congrats!", `Your Score: ${attemptObj.score}`, "success");
+      }
+  });
+
+  $('form').on('submit', () => {
+      window.localStorage.removeItem('attempt');
+  })
+
+  $('.answer').on('click', async function () {
+      const question = $(this).attr('name');
+      const value = $(this).attr('value');
+      const rawResponse = await fetch(location.href, {
+        method: 'PATCH',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: question, value })
+      })
+      const responseJSON = await rawResponse.json();
+      if (responseJSON.success) {
+        console.log('Update Answer Success!');
+      }
+  })
+</script>
+<script src="/js/quiz.js"></script>
+<script src="/js/sweetalert.min.js"></script>
+</html>
