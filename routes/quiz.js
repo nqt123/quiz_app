@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
   try {
     const attempt = await Attempt.findById(req.params.id).populate('questions');
 
-    return res.render('quiz', { attempt });
+    return res.status(201).render('quiz', { attempt });
   } catch (error) {
     res.send(error);
   }
